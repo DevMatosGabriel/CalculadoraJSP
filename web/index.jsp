@@ -7,21 +7,33 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-double resultado = 0;
+String resultado = "";
 double nro1 = 0;
 double nro2 = 0;
+String operacao = "";
+
 
 
 if (request.getMethod() == "POST") {
-    nro1 = Double.parseDouble(request.getParameter("nro1"));
-    nro2 = Double.parseDouble(request.getParameter("nro2"));
-    
-    if (request.getParameter("somar") != null) {
-      resultado = nro1 + nro2;
-    }else 
-    resultado = (nro1+nro2)/2;
-}
 
+    operacao = request.getParameter("operacao");
+    
+    try {
+           nro1 = Double.parseDouble(request.getParameter("nro1"));
+            nro2 = Double.parseDouble(request.getParameter("nro2"));
+            
+            if ("1".equals(operacao) ){
+                resultado = String.valueOf(nro1 + nro2);
+    }
+                
+                if ("2".equals(operacao) )
+                resultado = String.valueOf((nro1+nro2)/2);
+     
+        } catch (Exception e) {
+         resultado = "Utilize apenas numeros!";
+        }
+   
+    }
 
 
 
@@ -39,15 +51,25 @@ if (request.getMethod() == "POST") {
         <h1>CalculadoraJSP</h1>
         <form method="post"> 
             Primeiro Número:<br /> 
-            <input type="number" required name="nro1" value="<%= nro1 %>" /><br />
+            <input type="text" required name="nro1" value="<%= nro1 %>" ><br />
             Segundo Número:<br />
-            <input  type="number" required name="nro2" value="<%= nro2 %>" /><br /><br />
-             <input type="submit" value="Somar" name="somar" />
-            <input type="submit" value="Media" name="media"/>
+            <input  type="text" required name="nro2" value="<%= nro2 %>" /><br /><br />
+             
+            <div style="display: flex">
+                <input type="radio" name="operacao" id="somar" value="1" />
+                <span style="margin-left: 5px"> Somar</span>
+              </div>
+              <div style="display: flex">
+                  <input type="radio" name="operacao" id="media" value="2" />
+                <span style="margin-left: 5px"> Média</span>
+              </div>
+            <br />
+            <input type="submit" name="calcular" value="Calcular" />
+            <br />
             <br /><br />
-            Resultado: <%=resultado%>
-        
-        
+            Resultado: <%=resultado%> <br />
+
+         
          
     </body>
 </html>
